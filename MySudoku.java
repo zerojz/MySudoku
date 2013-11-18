@@ -5,38 +5,37 @@ import java.util.*;
 import java.io.*;
 
 public class MySudoku extends JFrame{
-	private Sudoku m_sdk;
+	private Sudoku m_Sudoku;
 
-	//private JTextField m_data[][];
-	private JPanel m_input;
-	private Vector<JTextField> m_dataVector;
+	private JPanel m_Input;
+	private Vector<JTextField> m_PointVector;
 
-	private JMenuBar m_menubar;
-	private JMenu m_menu_file;
-	private JMenuItem m_item_savetofile;
-	private JMenuItem m_item_readfromfile;
+	private JMenuBar m_MenuBar;
+	private JMenu m_Menu_File;
+	private JMenuItem m_Item_SaveToFile;
+	private JMenuItem m_Item_ReadFromFile;
 
-	private JToolBar m_buttons;
-	private JButton m_solve;
-	private JButton m_next;
-	private JButton m_pre;
-	private JButton m_clear;
+	private JToolBar m_Buttons;
+	private JButton m_Button_Solve;
+	private JButton m_Button_NextAnswer;
+	private JButton m_Button_PreviousAnswer;
+	private JButton m_Button_Clear;
 
-	private JLabel m_status;
+	private JLabel m_Label_Status;
 
-	private int m_anssum;
-	private Font m_textfont;
+	private int m_NumberOfAnswers;
+	private Font m_TextFont;
 
 	private void clearData(){
 		for (int i = 0; i<81; i++){
-			m_dataVector.get(i).setText("");
-			m_dataVector.get(i).setForeground(Color.BLUE);
+			m_PointVector.get(i).setText("");
+			m_PointVector.get(i).setForeground(Color.BLUE);
 		}
-		m_anssum = 0;
-		m_sdk.clear();
-		m_status.setText("Ready");
-		m_next.setEnabled(false);
-		m_pre.setEnabled(false);
+		m_NumberOfAnswers = 0;
+		m_Sudoku.clear();
+		m_Label_Status.setText("Ready");
+		m_Button_NextAnswer.setEnabled(false);
+		m_Button_PreviousAnswer.setEnabled(false);
 	}
 
 	public MySudoku(){
@@ -45,76 +44,73 @@ public class MySudoku extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 
-		m_sdk = new Sudoku();
+		m_Sudoku = new Sudoku();
 
-		m_input = new JPanel();
-		m_input.setLayout(new GridLayout(9,9));
+		m_Input = new JPanel();
+		m_Input.setLayout(new GridLayout(9,9));
 
 
-		m_textfont = new Font("Arial", Font.BOLD, 30);
-		m_dataVector = new Vector<JTextField>(81);
-		//m_data = new JTextField[9][9];
-		JTextField m_data;
+		m_TextFont = new Font("Arial", Font.BOLD, 30);
+		m_PointVector = new Vector<JTextField>(81);
+
+		JTextField Data;
 		for (int i = 0; i < 81; i++){
-			m_data = new JTextField("",1);
-			m_data.setHorizontalAlignment(JTextField.CENTER);
-			m_data.setFont(m_textfont);
+			Data = new JTextField("",1);
+			Data.setHorizontalAlignment(JTextField.CENTER);
+			Data.setFont(m_TextFont);
 
-			//m_data.setSize(100,100);
-			//m_data.setPreferredSize(new Dimension(30,30));
+			Data.setBackground(Color.WHITE);
+			Data.setForeground(Color.BLUE);
 
-			m_data.setBackground(Color.WHITE);
-			m_data.setForeground(Color.BLUE);
-
-			m_data.addKeyListener(new TextChange());
-			m_dataVector.addElement(m_data);
-			m_input.add(m_data);
+			Data.addKeyListener(new TextChange());
+			m_PointVector.addElement(Data);
+			m_Input.add(Data);
 		}
 
 //the buttons 
-		m_buttons = new JToolBar();
-		m_buttons.setFloatable(false);
+		m_Buttons = new JToolBar();
+		m_Buttons.setFloatable(false);
 
-		m_solve = new JButton("Solve");
-		m_solve.addActionListener(new ButtonClick());
-		m_buttons.add(m_solve);
+		m_Button_Solve = new JButton("Solve");
+		m_Button_Solve.addActionListener(new ButtonClick());
+		m_Buttons.add(m_Button_Solve);
 
-		m_clear = new JButton("Clear");
-		m_clear.addActionListener(new ButtonClick());
-		m_buttons.add(m_clear);
+		m_Button_Clear = new JButton("Clear");
+		m_Button_Clear.addActionListener(new ButtonClick());
+		m_Buttons.add(m_Button_Clear);
 
-		m_buttons.addSeparator();
+		m_Buttons.addSeparator();
 
-		m_next = new JButton("Next Ans");
-		m_next.addActionListener(new ButtonClick());
-		m_next.setEnabled(false);
-		m_buttons.add(m_next);
+		m_Button_NextAnswer = new JButton("Next Ans");
+		m_Button_NextAnswer.addActionListener(new ButtonClick());
+		m_Button_NextAnswer.setEnabled(false);
+		m_Buttons.add(m_Button_NextAnswer);
 
-		m_pre = new JButton("Pre Ans");
-		m_pre.addActionListener(new ButtonClick());
-		m_pre.setEnabled(false);
-		m_buttons.add(m_pre);
+		m_Button_PreviousAnswer = new JButton("Pre Ans");
+		m_Button_PreviousAnswer.addActionListener(new ButtonClick());
+		m_Button_PreviousAnswer.setEnabled(false);
+		m_Buttons.add(m_Button_PreviousAnswer);
 
 //the status label
-		m_status = new JLabel("Ready");	
+		m_Label_Status = new JLabel("Ready");	
 
 //the menu bar
-		m_menubar = new JMenuBar();
-		m_menu_file = new JMenu("File");
+		m_MenuBar = new JMenuBar();
+		m_Menu_File = new JMenu("File");
 
-		m_item_savetofile = new JMenuItem("Save the result");
-		m_item_savetofile.addActionListener(new MenuClick());
-		m_item_readfromfile = new JMenuItem("Import files");
-		m_item_readfromfile.addActionListener(new MenuClick());
+		m_Item_SaveToFile = new JMenuItem("Save the result");
+		m_Item_SaveToFile.addActionListener(new MenuClick());
+		m_Item_ReadFromFile = new JMenuItem("Import files");
+		m_Item_ReadFromFile.addActionListener(new MenuClick());
 
-		m_menu_file.add(m_item_savetofile);
-		m_menu_file.add(m_item_readfromfile);
-		m_menubar.add(m_menu_file);
+		m_Menu_File.add(m_Item_SaveToFile);
+		m_Menu_File.add(m_Item_ReadFromFile);
+		m_MenuBar.add(m_Menu_File);
 
-		add(m_input,BorderLayout.CENTER);
-		add(m_status,BorderLayout.SOUTH);
-		add(m_buttons,BorderLayout.NORTH);
-		setJMenuBar(m_menubar);
+		add(m_Input,BorderLayout.CENTER);
+		add(m_Label_Status,BorderLayout.SOUTH);
+		add(m_Buttons,BorderLayout.NORTH);
+		setJMenuBar(m_MenuBar);
 
 		setSize(300,400);
 		setResizable(false);
@@ -129,15 +125,15 @@ public class MySudoku extends JFrame{
 			String cmd = e.getActionCommand();
 			if (cmd.equals("Save the result")){
 		//save the answers
-				String filename = new String("Ans_Sudoku_BY_ZeRo.txt");
+				String FileName = new String("Ans_Sudoku_BY_ZeRo.txt");
 				try{
-					BufferedWriter fout = new BufferedWriter(new FileWriter(filename));
-					for (int k = 0; k< m_sdk.getLen(); k++){
+					BufferedWriter fout = new BufferedWriter(new FileWriter(FileName));
+					for (int k = 0; k< m_Sudoku.getNumberOfAnswers(); k++){
 						fout.write("Ans No." + Integer.toString(k+1) + ":");
 						fout.newLine();
 						for (int i=0; i<9; i++){
 							for (int j=0; j<9; j++)
-								fout.write(Integer.toString(m_sdk.getElm(k,i,j))+' ');
+								fout.write(Integer.toString(m_Sudoku.getPoint(k,i,j))+' ');
 							fout.newLine();
 						}
 						fout.newLine();							
@@ -145,29 +141,29 @@ public class MySudoku extends JFrame{
 					fout.close();
 				}
 				catch(IOException iox){
-					System.out.println("Something goes wrong when writing " + filename);
+					System.out.println("Something goes wrong when writing " + FileName);
 				}
 			}else if (cmd.equals("Import files")){
 		//open the file
 				JFileChooser fc = new JFileChooser();
 				if (fc.showOpenDialog(MySudoku.this) == JFileChooser.APPROVE_OPTION ){
 
-					String filename = fc.getSelectedFile().getName();
+					String FileName = fc.getSelectedFile().getName();
 					String line;
 					int num = 0;
 					char value;
 
 					try{
 						clearData();
-						BufferedReader fin = new BufferedReader(new FileReader(filename));
+						BufferedReader fin = new BufferedReader(new FileReader(FileName));
 						line = fin.readLine();
 						while (line != null && num < 81){
 							for (int i = 0; i<line.length(); i++){
 								value = line.charAt(i);
 								if (Character.isDigit(value)){
 									if (Character.compare(value,'0') != 0){
-										m_dataVector.get(num).setText(Character.toString(value));
-										m_dataVector.get(num).setForeground(Color.BLACK);
+										m_PointVector.get(num).setText(Character.toString(value));
+										m_PointVector.get(num).setForeground(Color.BLACK);
 									}
 									num++;
 								}
@@ -177,7 +173,7 @@ public class MySudoku extends JFrame{
 						fin.close();
 					}
 					catch(IOException iox){
-						System.out.println("Can't Read from" + filename);
+						System.out.println("Can't Read from" + FileName);
 					}
 				}
 			};
@@ -188,55 +184,55 @@ public class MySudoku extends JFrame{
 			String cmd = e.getActionCommand();
 			if (cmd.equals("Solve")){
 
-				m_anssum = 0;
-				m_sdk.clear();
-				m_status.setText("Start Searching...");
+				m_NumberOfAnswers = 0;
+				m_Sudoku.clear();
+				m_Label_Status.setText("Start Searching...");
 
 				for (int i = 0; i<9; i++)
 					for (int j = 0; j<9; j++)
-						if (m_dataVector.get(i*9+j).getText().equals(""))
-							m_sdk.addPoint(i,j,0);
+						if (m_PointVector.get(i*9+j).getText().equals(""))
+							m_Sudoku.addPoint(i,j,0);
 						else
-							m_sdk.addPoint(i,j,Integer.decode(m_dataVector.get(i*9+j).getText()));
+							m_Sudoku.addPoint(i,j,Integer.decode(m_PointVector.get(i*9+j).getText()));
 
-				m_sdk.solve(10);
+				m_Sudoku.solve(10);
 
-				if (m_sdk.getLen() != 0){
+				if (m_Sudoku.getNumberOfAnswers() != 0){
 					for (int i = 0; i<9; i++)
 						for (int j = 0; j<9; j++)
-							if (m_dataVector.get(i*9+j).getText().equals(""))
-								m_dataVector.get(i*9+j).setText(Integer.toString(m_sdk.getElm(m_anssum,i,j)));
+							if (m_PointVector.get(i*9+j).getText().equals(""))
+								m_PointVector.get(i*9+j).setText(Integer.toString(m_Sudoku.getPoint(m_NumberOfAnswers,i,j)));
 	
-					m_status.setText(Integer.toString(m_sdk.getLen()) + " Answers have been found!");
-				}else m_status.setText("No Answers have been found!");
+					m_Label_Status.setText(Integer.toString(m_Sudoku.getNumberOfAnswers()) + " Answers have been found!");
+				}else m_Label_Status.setText("No Answers have been found!");
 
-				if (m_anssum == m_sdk.getLen() - 1)
-					m_next.setEnabled(false);
-				else m_next.setEnabled(true);
-				if (m_anssum == 0)
-					m_pre.setEnabled(false);
-				else m_pre.setEnabled(true);
+				if (m_NumberOfAnswers == m_Sudoku.getNumberOfAnswers() - 1)
+					m_Button_NextAnswer.setEnabled(false);
+				else m_Button_NextAnswer.setEnabled(true);
+				if (m_NumberOfAnswers == 0)
+					m_Button_PreviousAnswer.setEnabled(false);
+				else m_Button_PreviousAnswer.setEnabled(true);
 
 			}else if (cmd.equals("Next Ans")){
-				m_pre.setEnabled(true);
-				if (m_anssum < m_sdk.getLen()-1){
-					m_anssum++;
-					m_status.setText("Answer No." + Integer.toString(m_anssum+1) + " | " + Integer.toString(m_sdk.getLen()) + " Answers in all");
+				m_Button_PreviousAnswer.setEnabled(true);
+				if (m_NumberOfAnswers < m_Sudoku.getNumberOfAnswers()-1){
+					m_NumberOfAnswers++;
+					m_Label_Status.setText("Answer No." + Integer.toString(m_NumberOfAnswers+1) + " | " + Integer.toString(m_Sudoku.getNumberOfAnswers()) + " Answers in all");
 					for (int i = 0; i<9; i++)
 						for (int j = 0; j<9; j++)
-							m_dataVector.get(i*9+j).setText(Integer.toString(m_sdk.getElm(m_anssum,i,j)));
-					if (m_anssum == m_sdk.getLen() - 1) m_next.setEnabled(false);
+							m_PointVector.get(i*9+j).setText(Integer.toString(m_Sudoku.getPoint(m_NumberOfAnswers,i,j)));
+					if (m_NumberOfAnswers == m_Sudoku.getNumberOfAnswers() - 1) m_Button_NextAnswer.setEnabled(false);
 				}
 
 			}else if (cmd.equals("Pre Ans")){
-				m_next.setEnabled(true);
-				if (m_anssum > 0){
-					m_anssum--;
-					m_status.setText("Answer No." + Integer.toString(m_anssum+1) + " | " + Integer.toString(m_sdk.getLen()) + " Answers in all");
+				m_Button_NextAnswer.setEnabled(true);
+				if (m_NumberOfAnswers > 0){
+					m_NumberOfAnswers--;
+					m_Label_Status.setText("Answer No." + Integer.toString(m_NumberOfAnswers+1) + " | " + Integer.toString(m_Sudoku.getNumberOfAnswers()) + " Answers in all");
 					for (int i = 0; i<9; i++)
 						for (int j = 0; j<9; j++)
-							m_dataVector.get(i*9+j).setText(Integer.toString(m_sdk.getElm(m_anssum,i,j)));
-					if (m_anssum == 0) m_pre.setEnabled(false);
+							m_PointVector.get(i*9+j).setText(Integer.toString(m_Sudoku.getPoint(m_NumberOfAnswers,i,j)));
+					if (m_NumberOfAnswers == 0) m_Button_PreviousAnswer.setEnabled(false);
 				}
 			}else if (cmd.equals("Clear")){
 				clearData();
@@ -247,7 +243,7 @@ public class MySudoku extends JFrame{
 	private class TextChange extends KeyAdapter{
 		public void keyTyped(KeyEvent e){
 			JTextField text = (JTextField)e.getSource();
-			int index = m_dataVector.indexOf(text);
+			int index = m_PointVector.indexOf(text);
 			char keychar = e.getKeyChar();
 			boolean next = false;
 
@@ -266,26 +262,26 @@ public class MySudoku extends JFrame{
 			};
 
 			if (next && index < 80)
-				m_dataVector.get(index+1).grabFocus();
+				m_PointVector.get(index+1).grabFocus();
 		};
 
 		public void keyPressed(KeyEvent e){
-			int index = m_dataVector.indexOf((JTextField)e.getSource());
+			int index = m_PointVector.indexOf((JTextField)e.getSource());
 
 			//System.out.println(e.getExtendedKeyCode());
 
 			switch(e.getExtendedKeyCode()){
 				case KeyEvent.VK_UP:
-					if (index > 8 ) m_dataVector.get(index-9).grabFocus(); 
+					if (index > 8 ) m_PointVector.get(index-9).grabFocus(); 
 					break;
 				case KeyEvent.VK_DOWN:
-					if (index < 72) m_dataVector.get(index+9).grabFocus(); 
+					if (index < 72) m_PointVector.get(index+9).grabFocus(); 
 					break;
 				case KeyEvent.VK_LEFT:
-					if (index > 0 ) m_dataVector.get(index-1).grabFocus(); 
+					if (index > 0 ) m_PointVector.get(index-1).grabFocus(); 
 					break;
 				case KeyEvent.VK_RIGHT:
-					if (index < 80) m_dataVector.get(index+1).grabFocus(); 
+					if (index < 80) m_PointVector.get(index+1).grabFocus(); 
 					break;
 				//default: System.out.println("nothing"); break;
 			}
@@ -294,6 +290,6 @@ public class MySudoku extends JFrame{
 
 //the main
 	public static void main(String args[]){
-		MySudoku m_sdk = new MySudoku();
+		MySudoku m_Sudoku = new MySudoku();
 	};
 };

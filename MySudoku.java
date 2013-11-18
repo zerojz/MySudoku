@@ -34,7 +34,7 @@ public class MySudoku extends JFrame{
 			m_dataVector.get(i).setForeground(Color.BLUE);
 		}
 		m_anssum = 0;
-		m_sdk.Clear();
+		m_sdk.clear();
 		m_status.setText("Ready");
 		m_next.setEnabled(false);
 		m_pre.setEnabled(false);
@@ -133,12 +133,12 @@ public class MySudoku extends JFrame{
 				String filename = new String("Ans_Sudoku_BY_ZeRo.txt");
 				try{
 					BufferedWriter fout = new BufferedWriter(new FileWriter(filename));
-					for (int k = 0; k< m_sdk.GetLen(); k++){
+					for (int k = 0; k< m_sdk.getLen(); k++){
 						fout.write("Ans No." + Integer.toString(k+1) + ":");
 						fout.newLine();
 						for (int i=0; i<9; i++){
 							for (int j=0; j<9; j++)
-								fout.write(Integer.toString(m_sdk.GetElm(k,i,j))+' ');
+								fout.write(Integer.toString(m_sdk.getElm(k,i,j))+' ');
 							fout.newLine();
 						}
 						fout.newLine();							
@@ -190,28 +190,28 @@ public class MySudoku extends JFrame{
 			if (cmd.equals("Solve")){
 
 				m_anssum = 0;
-				m_sdk.Clear();
+				m_sdk.clear();
 				m_status.setText("Start Searching...");
 
 				for (int i = 0; i<9; i++)
 					for (int j = 0; j<9; j++)
 						if (m_dataVector.get(i*9+j).getText().equals(""))
-							m_sdk.AddPoint(i,j,0);
+							m_sdk.addPoint(i,j,0);
 						else
-							m_sdk.AddPoint(i,j,Integer.decode(m_dataVector.get(i*9+j).getText()));
+							m_sdk.addPoint(i,j,Integer.decode(m_dataVector.get(i*9+j).getText()));
 
-				m_sdk.Solve(10);
+				m_sdk.solve(10);
 
-				if (m_sdk.GetLen() != 0){
+				if (m_sdk.getLen() != 0){
 					for (int i = 0; i<9; i++)
 						for (int j = 0; j<9; j++)
 							if (m_dataVector.get(i*9+j).getText().equals(""))
-								m_dataVector.get(i*9+j).setText(Integer.toString(m_sdk.GetElm(m_anssum,i,j)));
+								m_dataVector.get(i*9+j).setText(Integer.toString(m_sdk.getElm(m_anssum,i,j)));
 	
-					m_status.setText(Integer.toString(m_sdk.GetLen()) + " Answers have been found!");
+					m_status.setText(Integer.toString(m_sdk.getLen()) + " Answers have been found!");
 				}else m_status.setText("No Answers have been found!");
 
-				if (m_anssum == m_sdk.GetLen() - 1)
+				if (m_anssum == m_sdk.getLen() - 1)
 					m_next.setEnabled(false);
 				else m_next.setEnabled(true);
 				if (m_anssum == 0)
@@ -220,23 +220,23 @@ public class MySudoku extends JFrame{
 
 			}else if (cmd.equals("Next Ans")){
 				m_pre.setEnabled(true);
-				if (m_anssum < m_sdk.GetLen()-1){
+				if (m_anssum < m_sdk.getLen()-1){
 					m_anssum++;
-					m_status.setText("Answer No." + Integer.toString(m_anssum+1) + " | " + Integer.toString(m_sdk.GetLen()) + " Answers in all");
+					m_status.setText("Answer No." + Integer.toString(m_anssum+1) + " | " + Integer.toString(m_sdk.getLen()) + " Answers in all");
 					for (int i = 0; i<9; i++)
 						for (int j = 0; j<9; j++)
-							m_dataVector.get(i*9+j).setText(Integer.toString(m_sdk.GetElm(m_anssum,i,j)));
-					if (m_anssum == m_sdk.GetLen() - 1) m_next.setEnabled(false);
+							m_dataVector.get(i*9+j).setText(Integer.toString(m_sdk.getElm(m_anssum,i,j)));
+					if (m_anssum == m_sdk.getLen() - 1) m_next.setEnabled(false);
 				}
 
 			}else if (cmd.equals("Pre Ans")){
 				m_next.setEnabled(true);
 				if (m_anssum > 0){
 					m_anssum--;
-					m_status.setText("Answer No." + Integer.toString(m_anssum+1) + " | " + Integer.toString(m_sdk.GetLen()) + " Answers in all");
+					m_status.setText("Answer No." + Integer.toString(m_anssum+1) + " | " + Integer.toString(m_sdk.getLen()) + " Answers in all");
 					for (int i = 0; i<9; i++)
 						for (int j = 0; j<9; j++)
-							m_dataVector.get(i*9+j).setText(Integer.toString(m_sdk.GetElm(m_anssum,i,j)));
+							m_dataVector.get(i*9+j).setText(Integer.toString(m_sdk.getElm(m_anssum,i,j)));
 					if (m_anssum == 0) m_pre.setEnabled(false);
 				}
 			}else if (cmd.equals("Clear")){

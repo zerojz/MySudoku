@@ -1,25 +1,25 @@
 package z.sudoku;
 
 public class Dlx{
-	static final int BASEN = 3;
-	static final int DBASEN = BASEN*BASEN;
-	static final int COL = 4*DBASEN*DBASEN;
-	static final int ROW = DBASEN*DBASEN*DBASEN;
-	static final int SUM = 8*DBASEN*DBASEN*DBASEN;
-	static final int MAXN = 100000;
+	static final int BASEN	 = 3;
+	static final int DBASEN	 = BASEN*BASEN;
+	static final int COL	 = 4*DBASEN*DBASEN;
+	static final int ROW	 = DBASEN*DBASEN*DBASEN;
+	static final int SUM	 = 8*DBASEN*DBASEN*DBASEN;
+	static final int MAXN	 = 100000;
 
 
-	private int m_U[] = new int[SUM+1];
-	private int m_D[] = new int[SUM+1];
-	private int m_L[] = new int[SUM+1];
-	private int m_R[] = new int[SUM+1];
-	private int m_colx[] = new int[SUM+1];
-	private int m_rowx[] = new int[SUM+1];
-	private int m_col[] = new int[COL+1]; 
-	private int m_cols[] = new int[COL+1]; 
-	private int m_row[] = new int[ROW+1]; 
-	private int m_ans[][] = new int[10][10000];
-	private int m_tempans[] = new int[10000];
+	private int m_U[]	 = new int[SUM+1];
+	private int m_D[]	 = new int[SUM+1];
+	private int m_L[]	 = new int[SUM+1];
+	private int m_R[]	 = new int[SUM+1];
+	private int m_colx[]	 = new int[SUM+1];
+	private int m_rowx[]	 = new int[SUM+1];
+	private int m_col[]	 = new int[COL+1]; 
+	private int m_cols[]	 = new int[COL+1]; 
+	private int m_row[]	 = new int[ROW+1]; 
+	private int m_ans[][]	 = new int[10][10000];
+	private int m_tempans[]	 = new int[10000];
 
 	private int m_sum;
 	private int m_length;
@@ -133,7 +133,7 @@ public class Dlx{
 		}
 	};
 
-	public void AddPoint(int x,int y){
+	public void addPoint(int x,int y){
 		m_sum++;
 		m_R[m_sum]=m_row[x];
 		m_L[m_sum]=m_L[m_row[x]];
@@ -150,7 +150,7 @@ public class Dlx{
 		m_rowx[m_sum]=x;
 	};
 
-	public void Solve(int s){
+	public void solve(int s){
 		for (int i = 1; i <= m_r; i++){
 			m_R[m_L[m_row[i]]] = m_R[m_row[i]];
 			m_L[m_R[m_row[i]]] = m_L[m_row[i]];
@@ -160,7 +160,7 @@ public class Dlx{
 		return;
 	}
 
-	public void Clear(){
+	public void clear(){
 		m_sum = 0;
 		m_length = 0;
 		m_symbol = 0;
@@ -204,13 +204,13 @@ public class Dlx{
 		}
 	};
 
-	public int GetLen(){
+	public int getLen(){
 		return m_length;
 	};
-	public int GetLen(int k){
+	public int getLen(int k){
 		return m_ans[k][0];
 	};
-	public int GetElm(int k,int l){
+	public int getElm(int k,int l){
 		return m_ans[k][l];
 	};
 };

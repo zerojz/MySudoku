@@ -1,5 +1,3 @@
-package z.sudoku;
-
 public class Dlx{
 	static final int BASEN	 = 3;
 	static final int DBASEN	 = BASEN*BASEN;

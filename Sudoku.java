@@ -1,5 +1,3 @@
-package z.sudoku;
-
 public class Sudoku{
 	private	int m_data[][]	 = new int[Dlx.DBASEN][Dlx.DBASEN];
 	private	int m_ans[][][]	 = new int[10][Dlx.DBASEN][Dlx.DBASEN];

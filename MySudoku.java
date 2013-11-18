@@ -1,4 +1,3 @@
-import z.sudoku.Sudoku;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

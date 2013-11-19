@@ -242,19 +242,20 @@ public class MySudoku extends JFrame{
 
 	private class TextChange extends KeyAdapter{
 		public void keyTyped(KeyEvent e){
+
 			JTextField text = (JTextField)e.getSource();
-			int index = m_PointVector.indexOf(text);
-			char keychar = e.getKeyChar();
-			boolean next = false;
+			int index 	= m_PointVector.indexOf(text);
+			char KeyChar 	= e.getKeyChar();
+			boolean next 	= false;
 
-			//System.out.println(e.getExtendedKeyCode());
+			//System.out.println(e.getKeyChar());
 
-			if (Character.isDigit(keychar) && Character.getNumericValue(keychar) > 0){
+			if (Character.isDigit(KeyChar) && Character.getNumericValue(KeyChar) > 0){
 				text.setText("");
 				text.setForeground(Color.BLACK);
 				next = true;
 			}else{
-				if (Character.compare(keychar,'0') == 0)
+				if (Character.compare(KeyChar,'0') == 0 || Character.compare(KeyChar,' ') == 0 )
 					next = true;
 				e.setKeyChar('\0');
 				text.setText("");
@@ -268,9 +269,9 @@ public class MySudoku extends JFrame{
 		public void keyPressed(KeyEvent e){
 			int index = m_PointVector.indexOf((JTextField)e.getSource());
 
-			//System.out.println(e.getExtendedKeyCode());
+			//System.out.println(e.getKeyCode());
 
-			switch(e.getExtendedKeyCode()){
+			switch(e.getKeyCode()){
 				case KeyEvent.VK_UP:
 					if (index > 8 ) m_PointVector.get(index-9).grabFocus(); 
 					break;
@@ -283,7 +284,6 @@ public class MySudoku extends JFrame{
 				case KeyEvent.VK_RIGHT:
 					if (index < 80) m_PointVector.get(index+1).grabFocus(); 
 					break;
-				//default: System.out.println("nothing"); break;
 			}
 		};
 	};
